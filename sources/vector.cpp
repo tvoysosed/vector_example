@@ -12,13 +12,13 @@ capacity_ = 0;
 
 vector_t::vector_t(vector_t const & other)
 {
-elements_ = new int [other.capacity()];
-for (int i = 0; i < other.size(); ++i)
+size_ = other.size;
+capacity_ = other.capacity;
+elements_ = new int [capacity_];
+for (unsigned int i = 0; i < other.size(); ++i)
 	{
 	elements_[i] = other.elements_[i];
 	}
-size_ = other.size();
-capacity_ = other.capacity();
 }
 
 vector_t & vector_t::operator = (vector_t const & other)
@@ -26,9 +26,9 @@ vector_t & vector_t::operator = (vector_t const & other)
 if (&other != this)
 	{
 	delete[] elements_;
-	size_ = other.size_;
-	capacity_ = other.capacity_;
-	elements_ = new int [capacity_];
+	this->size_ = other.size_;
+	this->capacity_ = other.capacity_;
+	this->elements_ = new int [capacity_];
 	for (unsigned int i = 0; i < size_; i++)
 	elements_[i] = other.elements_[i];
 	}
@@ -37,13 +37,13 @@ return *this;
 
 bool vector_t::operator == (vector_t const & other) const
 {	
-if (size_ != other.size() || capacity_ != other.capacity())
+if (this->size_ != other.size() || this->capacity_ != other.capacity())
 	{
 	return false;
 	}
 for (int i = 0; i < capacity_; i++)
 	{
-	if(elements_[i] != other.elements_[i]) return false;
+	if(this->elements_[i] != other.elements_[i]) return false;
 	}
 return true;
 }
@@ -75,7 +75,7 @@ if (!elements_)
 else
 	{
 	int *v = new int[capacity_];
-	for (int i = 0; i < size_; ++i)
+	for (std::size_t i = 0; i < size_; ++i)
 		{
 		v[i] = elements_[i];
 		}
@@ -87,7 +87,7 @@ else
 	size_++;
 
 	elements_ = new int[capacity_];
-	for (int i = 0; i < size_; ++i)
+	for (std::size_t i = 0; i < size_; ++i)
 		{
 		if( i != size_-1) elements_[i] = v[i];
 		else elements_[i] = value;
@@ -106,7 +106,7 @@ if (size_ <= (capacity_ / 4))
 	{
 	capacity_ = capacity_ / 2;
 	int *elements = new int[capacity_];
-	for (int i; i<size_; i++)
+	for (std::size_t i; i<size_; i++)
 		{
 		elements[i] = elements_[i];
 		}
@@ -131,16 +131,6 @@ return elements_[index];
 
 bool operator != (vector_t const & lhs, vector_t const & rhs)
 {
-if (rhs.size() != lhs.size())
-	{
-	return true;
-	}
-for (int i = 0; i < rhs.size(); i++)
-	{
-	if (lhs.elements_[i] != rhs.elements_[i])
-		{
-		return true;
-		}
-	}
-return false;
+if (lhs == rhs) return false;
+return true;
 }
