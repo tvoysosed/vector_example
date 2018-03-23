@@ -5,7 +5,9 @@
 
 vector_t::vector_t()
 {
-	/* ывао*/
+elements_=nullptr;
+size_=0;
+capacity_=0;
 }
 
 vector_t::vector_t(vector_t const & other)
