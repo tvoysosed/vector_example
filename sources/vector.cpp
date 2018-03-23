@@ -135,7 +135,7 @@ if (rhs.size() != lhs.size())
 	{
 	return true;
 	}
-for (int i = 0; i <r hs.size(); i++)
+for (int i = 0; i < rhs.size(); i++)
 	{
 	if (lhs.elements_[i] != rhs.elements_[i])
 		{
