@@ -65,58 +65,45 @@ return capacity_;
 
 void vector_t::push_back(int value)
 {
-if (!elements_)
-	{
-	size_ = 1;
-	capacity_ = 1;
-	elements_ = new int[capacity_];
-	elements_[0] = value;
-	}
-else
-	{
-	int *v = new int[capacity_];
-	for (std::size_t i = 0; i < size_; ++i)
-		{
-		v[i] = elements_[i];
-		}
-	delete[] elements_;
-	if (size_ == capacity_)
-		{
-		capacity_ *= 2;
-		}
-	size_++;
-
-	elements_ = new int[capacity_];
-	for (std::size_t i = 0; i < size_; ++i)
-		{
-		if( i != size_-1) elements_[i] = v[i];
-		else elements_[i] = value;
-		}
-	}
+if (size_ == 0)
+{
+    size_ = 1;
+    capacity_ = 1;
+    elements_ = new int[capacity_];
+    elements_[0] = value;
+  } else if (size_ == capacity_) {
+    capacity_ = capacity_ * 2;
+    int* mas = new int[capacity_];
+    for (std::size_t i = 0; i < size_; i++) {
+      mas[i] = elements_[i];
+    }
+    delete[] elements_;
+    elements_ = mas;
+    elements_[size_] = value;
+    size_++;
+  } else {
+    elements_[size_] = value;
+    size_++;
+  }
 }
 
 void vector_t::pop_back()
 {
-if (size_ == 0)
-	{
-	return;
-	}
-size_--;
-if (size_ <= (capacity_ / 4))
-	{
-	capacity_ = capacity_ / 2;
-	int *elements = new int[capacity_];
-	for (std::size_t i; i<size_; i++)
-		{
-		elements[i] = elements_[i];
-		}
-
-	if (elements_ != nullptr)
-		{
-		delete[] elements_;
-		}
-	elements_ = elements;
-	}
+ size_--;
+  if (size_ == 0 || size_ * 4 == capacity_) {
+    int* mas;
+    mas = new int[size_];
+    for (std::size_t i = 0; i < size_; i++) {
+      mas[i] = elements_[i];
+    }
+    delete[] elements_;
+    capacity_ = capacity_ / 2;
+    elements_ = new int[capacity_];
+    for (std::size_t i = 0; i < size_; i++) {
+      elements_[i] = mas[i];
+    }
+    delete[] mas;
+  }
 }
 
 int & vector_t::operator [](std::size_t index)
